@@ -1,6 +1,6 @@
 from django.db import models
 from uuid import uuid4
-from sellers.models import CustomUser
+from accounts.models import CustomUser
 from core.models import ProductCategory, ProductType
 
 # Create your models here.
@@ -15,11 +15,11 @@ class Product(models.Model):
     )
     product_name = models.CharField(max_length=255)
     category = models.ForeignKey(
-        ProductCategory, on_delete=models.SET_NULL, related_name="category_products"
+        ProductCategory, on_delete=models.SET_NULL, related_name="category_products", null=True, blank=True
     )
     description = models.TextField(max_length=255, null=True, blank=True)
     product_price = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
-    quantity = models.IntegerField(max_length=5, default=1)
+    quantity = models.IntegerField(default=1)
     is_approved = models.BooleanField(default=True)
     product_type = models.ForeignKey(
         ProductType, on_delete=models.SET_NULL, null=True, blank=True

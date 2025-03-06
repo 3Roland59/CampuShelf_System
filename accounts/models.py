@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Permission
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
 from uuid import uuid4
@@ -47,6 +47,9 @@ class CustomUser(AbstractUser):
     verified = models.BooleanField(default=False)
     student_id_pic = models.ImageField(upload_to="Student IDs", null=True, blank=True)
     student_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
+
+    groups = models.ManyToManyField(Group, related_name="customuser_groups", blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name="customuser_permissions", blank=True)
 
     USERNAME_FIELD = "email"
 

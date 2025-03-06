@@ -10,7 +10,7 @@ class ProductPayment(models.Model):
     payment_id = models.UUIDField(unique=True, primary_key=True, default=uuid4)
     reference = models.CharField(max_length=255, null=True, blank=True, editable=False)
     transaction = models.CharField("Transaction", max_length=50)
-    quantity = models.IntegerField(default=1, max_length=5)
+    quantity = models.IntegerField(default=1)
     buyer = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="products_payments"
     )

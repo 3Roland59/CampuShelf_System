@@ -1,4 +1,4 @@
-from ..products.models import Product, ProductImage
+from products.models import Product, ProductImage
 
 
 class ProductRepository:

@@ -5,10 +5,7 @@ from rest_framework.serializers import (
     BooleanField,
     ImageField,
     Serializer,
-    ValidationError,
 )
-from django.contrib.auth.password_validation import validate_password
-from rest_framework.serializers import Serializer
 from phonenumber_field.serializerfields import PhoneNumberField
 from django.contrib.auth.models import update_last_login
 from accounts.models import CustomUser, Notification
@@ -36,7 +33,6 @@ class UserCreationSerializer(ModelSerializer):
 
 class UserSerializer(ModelSerializer):
     phone_confirm = BooleanField(read_only=True)
-    email_confirm = BooleanField(read_only=True)
     profile_image = ImageField(read_only=True)
     phone = PhoneNumberField()
 
@@ -49,8 +45,9 @@ class UserSerializer(ModelSerializer):
             "email",
             "profile_image",
             "phone_confirm",
-            "email_confirm",
             "location",
+            "verified",
+            "student_id"
         ]
 
 
@@ -69,11 +66,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "first_name": self.user.first_name,
             "last_name": self.user.last_name,
             "phone_confirm": self.user.phone_confirm,
-            "email_confirm": self.user.email_confirm,
             "location": self.user.location,
             "profile_image": (
                 self.user.profile_image.url if self.user.profile_image else None
             ),
+            "verified": self.user.verified,
+            "student_id": self.user.student_id,
         }
 
         if api_settings.UPDATE_LAST_LOGIN:

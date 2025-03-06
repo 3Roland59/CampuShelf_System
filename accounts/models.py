@@ -38,12 +38,12 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4)
     phone = PhoneNumberField(unique=True)
-    email = models.EmailField("email address")
+    email = models.EmailField("email address", unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     phone_confirm = models.BooleanField(default=False)
     location = models.CharField(max_length=255, null=True, blank=True)
-    profile_image = models.ImageField(upload_to="profile_images", null=True)
+    profile_image = models.ImageField(upload_to="profile_images", null=True, blank=True)
     verified = models.BooleanField(default=False)
     student_id_pic = models.ImageField(upload_to="Student IDs", null=True, blank=True)
     student_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
@@ -52,6 +52,7 @@ class CustomUser(AbstractUser):
     user_permissions = models.ManyToManyField(Permission, related_name="customuser_permissions", blank=True)
 
     USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["phone", "first_name", "last_name"]
 
     objects = CustomUserManager()
 

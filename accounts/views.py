@@ -105,46 +105,60 @@ class RequestPhoneNumberVerificationView(CreateAPIView):
 
 
 class PhoneVerifcationView(CreateAPIView):
-    repo = PhoneVerificationCodeRepo
     serializer_class = PhoneVericationSerializer
-    user_repo = UserRepository
+    repo = PhoneVerificationCodeRepo()
+    user_repo = UserRepository()
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            phone = request.data.get("phone")
-            code = request.data.get("code")
-            exists, v_code = self.repo.check_code(phone=phone)
-            if exists and check_password(code, v_code.code):
-                if timezone.now() >= v_code.expires_in:
-                    context = {
-                        "status": "failure",
-                        "message": "Sms has expired.",
-                        "data": {"phone": phone},
-                    }
-                    v_code.delete()
-                    return Response(data=context, status=status.HTTP_400_BAD_REQUEST)
-                context = {
-                    "status": "success",
-                    "message": "Phone number verified.",
-                    "data": {"phone": phone},
-                }
-                v_code.delete()
-                try:
-                    # for if the user has not completed signup yet or phone does not exists
-                    user = self.user_repo.get_user_by_phone(phone=phone)
-                    user.phone_confirm = True
-                    user.save()
-                except:
-                    pass
-                return Response(data=context, status=status.HTTP_200_OK)
-            else:
-                context = {
-                    "status": "failure",
-                    "message": "Phone number verification failed.",
-                    "data": {"phone": phone},
-                }
-                return Response(data=context, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not serializer.is_valid():
+            return Response(
+                {"status": "failure", "message": "Invalid data.", "errors": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        phone = request.data.get("phone")
+        code = request.data.get("code")
+
+        if not phone or not code:
+            return Response(
+                {"status": "failure", "message": "Phone and code are required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        exists, v_code = self.repo.check_code(phone=phone)
+
+        if not exists or not check_password(code, v_code.code):
+            return Response(
+                {"status": "failure", "message": "Phone number verification failed."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if timezone.now() >= v_code.expires_in:
+            v_code.delete()
+            return Response(
+                {"status": "failure", "message": "Verification code has expired."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Mark phone as verified
+        v_code.delete()
+
+        try:
+            user = self.user_repo.get_user_by_phone(phone=phone)
+            if user:
+                user.phone_confirm = True
+                user.save()
+        except:
+            pass
+
+        return Response(
+            {"status": "success", "message": "Phone number verified."},
+            status=status.HTTP_200_OK
+        )
+
+
 
 
 class GetNotificationView(ListAPIView):

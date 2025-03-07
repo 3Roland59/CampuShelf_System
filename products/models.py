@@ -15,14 +15,14 @@ class Product(models.Model):
     )
     product_name = models.CharField(max_length=255)
     category = models.ForeignKey(
-        ProductCategory, on_delete=models.SET_NULL, related_name="category_products", null=True, blank=True
+        ProductCategory, on_delete=models.CASCADE, related_name="category_products"
     )
     description = models.TextField(max_length=255, null=True, blank=True)
     product_price = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     quantity = models.IntegerField(default=1)
     is_approved = models.BooleanField(default=True)
     product_type = models.ForeignKey(
-        ProductType, on_delete=models.SET_NULL, null=True, blank=True
+        ProductType, on_delete=models.CASCADE
     )
     date_posted = models.DateTimeField(auto_now_add=True, null=True)
     last_updated = models.DateTimeField(auto_now=True, null=True)

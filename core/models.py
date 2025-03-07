@@ -9,6 +9,7 @@ product_type = (
     ("rental", "Rental"),
 )
 
+
 class ProductCategory(models.Model):
     category_id = models.UUIDField(
         primary_key=True, unique=True, editable=False, default=uuid4
@@ -17,6 +18,7 @@ class ProductCategory(models.Model):
     image = models.ImageField(
         upload_to="category_images",
         null=True,
+        blank=True,
     )
     description = models.TextField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

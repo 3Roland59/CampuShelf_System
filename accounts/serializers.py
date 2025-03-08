@@ -33,7 +33,8 @@ class UserCreationSerializer(ModelSerializer):
 
 class UserSerializer(ModelSerializer):
     phone_confirm = BooleanField(read_only=True)
-    profile_image = ImageField(read_only=True)
+    profile_image = ImageField()
+    student_id_pic = ImageField()
     phone = PhoneNumberField()
 
     class Meta:
@@ -47,7 +48,8 @@ class UserSerializer(ModelSerializer):
             "phone_confirm",
             "location",
             "verified",
-            "student_id"
+            "student_id",
+            "student_id_pic",
         ]
 
 

@@ -36,6 +36,8 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
+    username = None
+
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4)
     phone = PhoneNumberField(unique=True)
     email = models.EmailField("email address", unique=True)

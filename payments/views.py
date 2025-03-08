@@ -1,3 +1,26 @@
-from django.shortcuts import render
+from rest_framework.permissions import IsAuthenticated
+from payments.serializers import (
+    ListPaymentHistorySerializer,
+    VerifyPaymentSerializer,
+)
+from payments.services import verify_product_payment
+from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.response import Response
 
-# Create your views here.
+
+class ProductPaymentView(CreateAPIView):
+    serializer_class = VerifyPaymentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        service = verify_product_payment
+        status, context = service(request, self.serializer_class)
+        return Response(status=status, data=context)
+
+
+class PaymentHistoryView(ListAPIView):
+    serializer_class = ListPaymentHistorySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)

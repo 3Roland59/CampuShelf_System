@@ -18,4 +18,8 @@ class Admin(admin.ModelAdmin):
     list_display = ["category_name", "is_active", "_image"]
 
 
-admin.site.register(ProductType)
+class ProductTypeClassAdmin(admin.ModelAdmin):
+    list_display = ["type_name", "is_active", "created_at"]
+
+
+admin.site.register(ProductType, ProductTypeClassAdmin)

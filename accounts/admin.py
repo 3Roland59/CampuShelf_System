@@ -1,6 +1,5 @@
 from django.contrib import admin
 from accounts.models import CustomUser, PhoneVerifcationCodes, Notification
-from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
 # Register your models here.
@@ -19,6 +18,8 @@ class UserClassAdmin(admin.ModelAdmin):
                     "last_name",
                     "profile_image",
                     "location",
+                    "student_id",
+                    "student_id_pic",
                 )
             },
         ),
@@ -40,15 +41,19 @@ class UserClassAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "phone_confirm",
+                    "verified",
                     )
             },
         ),
     )
 
 
-admin.site.register(CustomUser, UserClassAdmin)
+class NotificationClassAdmin(admin.ModelAdmin):
+    list_display = ["user", "status", "created_at"]
 
+
+admin.site.register(CustomUser, UserClassAdmin)
 
 admin.site.register(PhoneVerifcationCodes)
 
-admin.site.register(Notification)
+admin.site.register(Notification, NotificationClassAdmin)

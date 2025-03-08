@@ -15,7 +15,7 @@ class ProductPayment(models.Model):
         CustomUser, on_delete=models.CASCADE, related_name="products_payments"
     )
     product = models.ForeignKey(
-        Product, on_delete=models.SET_NULL, null=True
+        Product, on_delete=models.SET_NULL, null=True, blank=True
     )
     product_price_payed = models.DecimalField(
         decimal_places=2,

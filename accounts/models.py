@@ -3,8 +3,6 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Per
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
 from uuid import uuid4
-from cloudinary.models import CloudinaryField
-from django.conf import settings
 
 # Create your models here.
 
@@ -47,9 +45,9 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=255)
     phone_confirm = models.BooleanField(default=False)
     location = models.CharField(max_length=255, null=True, blank=True)
-    profile_image = models.ImageField(upload_to="profile_images", null=True, blank=True) if settings.DEBUG else CloudinaryField("profile_images", null=True, blank=True)
+    profile_image = models.ImageField(upload_to="profile_images", null=True, blank=True)
     verified = models.BooleanField(default=False)
-    student_id_pic = models.ImageField(upload_to="student_id_pic", null=True, blank=True) if settings.DEBUG else CloudinaryField("student_id_pic", null=True, blank=True)
+    student_id_pic = models.ImageField(upload_to="Student IDs", null=True, blank=True)
     student_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
 
     groups = models.ManyToManyField(Group, related_name="customuser_groups", blank=True)

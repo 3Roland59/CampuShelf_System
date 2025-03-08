@@ -2,6 +2,8 @@ from django.db import models
 from uuid import uuid4
 from accounts.models import CustomUser
 from core.models import ProductCategory, ProductType
+from cloudinary.models import CloudinaryField
+from django.conf import settings
 
 # Create your models here.
 
@@ -39,7 +41,7 @@ class ProductImage(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="product_images"
     )
-    image = models.ImageField(upload_to="product_images")
+    image = models.ImageField(upload_to="product_images") if settings.DEBUG else CloudinaryField("product_images")
 
     def __str__(self) -> str:
         return f"{self.product.product_id}"

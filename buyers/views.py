@@ -24,7 +24,7 @@ class RemoveSavedProductView(DestroyAPIView):
     """
     Removing saved products from saved
     """
-
+    serializer_class = BuyerSavedProductSerializer
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, product_id):
@@ -59,7 +59,7 @@ class RemoveCartView(DestroyAPIView):
     """
     Removing products from cart
     """
-
+    serializer_class = BuyerCartSerializer
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, product_id):

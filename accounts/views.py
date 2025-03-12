@@ -80,7 +80,7 @@ class LoginView(TokenViewBase):
 class RequestPhoneNumberVerificationView(CreateAPIView):
     serializer_class = RequestPhoneVerificationSerializer
     repo = PhoneVerificationCodeRepo
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -89,12 +89,12 @@ class RequestPhoneNumberVerificationView(CreateAPIView):
             _phone = request.data.get("phone")
             # normalize phone number to able to send sms with mnotify
             phone = normalize_phone(_phone)
-            code = generate_code(max=4)
+            code = generate_code(max=4, reset_password=True)
             self.repo.create_code(phone=_phone, code=code)
             send_sms_message(
                 phone=phone,
                 template="phone_verification.html",
-                context={"code": code, "fname": request.user.first_name},
+                context={"code": code, "fname": "User"},
             )
             context = {
                 "status": "success",

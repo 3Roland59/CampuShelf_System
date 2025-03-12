@@ -42,6 +42,6 @@ urlpatterns = [
     path(
         "get-user-notifications/<uuid:notification_id>/",
         GetNotificationDetailView.as_view(),
-        name="notifications",
+        name="notification-detail",
     ),
 ]

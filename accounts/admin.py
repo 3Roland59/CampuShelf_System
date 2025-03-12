@@ -16,6 +16,7 @@ class UserClassAdmin(admin.ModelAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
+                    "phone",
                     "profile_image",
                     "location",
                     "student_id",

@@ -2,6 +2,7 @@ from django.db import models
 from uuid import uuid4
 from accounts.models import CustomUser
 from products.models import Product
+from core.models import ProductType
 
 # Create your models here.
 
@@ -22,6 +23,8 @@ class ProductPayment(models.Model):
         max_digits=10,
         verbose_name="Product price at the time of payment",
     )
+    product_type = models.ForeignKey(ProductType, on_delete=models.SET_NULL, null=True, blank=True)
+    number_of_days = models.IntegerField(default=1)
     payed_at = models.DateTimeField(auto_now_add=True, verbose_name="Date Payed")
     payment_successful = models.BooleanField(default=False)
 

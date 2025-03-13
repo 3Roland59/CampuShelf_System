@@ -1,0 +1,112 @@
+[
+  {
+    "model": "core.productcategory",
+    "pk": "b38b5701-7430-4904-b531-786f4016e647",
+    "fields": {
+      "category_name": "Supermarket",
+      "created_at": "2024-03-06T12:00:00Z",
+      "last_updated": "2024-03-06T12:00:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "6cb9b870-d4ea-47be-9677-1996d91e8c28",
+    "fields": {
+      "category_name": "Phones & Tablet",
+      "created_at": "2024-03-06T12:01:00Z",
+      "last_updated": "2024-03-06T12:01:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "4d8a5bb2-1a8b-45b0-8cae-6b939b1b3e80",
+    "fields": {
+      "category_name": "Health & Beauty",
+      "created_at": "2024-03-06T12:02:00Z",
+      "last_updated": "2024-03-06T12:02:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "8ac13f74-9f4c-49b5-b11f-22e9329e82c9",
+    "fields": {
+      "category_name": "Home & Office",
+      "created_at": "2024-03-06T12:03:00Z",
+      "last_updated": "2024-03-06T12:03:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "2f2f4530-7887-45cc-8186-b5a3c2a9133a",
+    "fields": {
+      "category_name": "Appliances",
+      "created_at": "2024-03-06T12:04:00Z",
+      "last_updated": "2024-03-06T12:04:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "db3642f6-13a5-4772-bd98-b2c8c345f65e",
+    "fields": {
+      "category_name": "Electronics",
+      "created_at": "2024-03-06T12:05:00Z",
+      "last_updated": "2024-03-06T12:05:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "fea883f7-8b4c-43a0-b5ea-2f4b4b0e9a6f",
+    "fields": {
+      "category_name": "Computing",
+      "created_at": "2024-03-06T12:06:00Z",
+      "last_updated": "2024-03-06T12:06:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "9972d089-42d3-44ad-b18c-178fad084dc3",
+    "fields": {
+      "category_name": "Fashion",
+      "created_at": "2024-03-06T12:07:00Z",
+      "last_updated": "2024-03-06T12:07:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "ae14b6e4-bc66-4db7-89f6-75fe34f218ac",
+    "fields": {
+      "category_name": "Sporting Goods",
+      "created_at": "2024-03-06T12:08:00Z",
+      "last_updated": "2024-03-06T12:08:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "5b90585b-8cfd-4d6f-9ad1-64c7811b3036",
+    "fields": {
+      "category_name": "Baby Products",
+      "created_at": "2024-03-06T12:09:00Z",
+      "last_updated": "2024-03-06T12:09:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": "a9d8f5b3-7cfd-4d9b-8d1a-64c7a11b3036",
+    "fields": {
+      "category_name": "Gaming",
+      "created_at": "2024-03-06T12:10:00Z",
+      "last_updated": "2024-03-06T12:10:00Z",
+      "is_active": true
+    }
+  }
+]

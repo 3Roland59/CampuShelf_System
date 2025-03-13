@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'barter',
     'buyers',
     'core',
     'payments',

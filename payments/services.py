@@ -6,9 +6,11 @@ from accounts.repository import NotificationRepository
 from accounts.utils import normalize_phone
 from utils.utils import send_sms_message
 from core.repository import ProductTypeRepository
+from payments.repository import ProductPaymentRepository
 
 
 product_repo = ProductRepository()
+payment_repo = ProductPaymentRepository()
 
 
 def verify_product_payment(request, serializer_class):
@@ -20,21 +22,23 @@ def verify_product_payment(request, serializer_class):
     product_type_repo = ProductTypeRepository
 
     if serializer.is_valid(raise_exception=True):
-        reference = serializer.validated_data.get("reference")
-        transaction = serializer.validated_data.get("transaction")
-        product_id = serializer.validated_data.get("product_id")
+        reference = request.data.get("reference")
+        product_id = request.data.get("product")
         quantity = serializer.validated_data.get("quantity")
         product_type = serializer.validated_data.get("product_type")
         number_of_days = serializer.validated_data.get("number_of_days")
+        payment = serializer.save()
 
         product = product_repo.get_product_by_id(product_id=product_id)
-        p_type = product_type_repo.get_type_by_id(type_id=product_type)
+        p_type = product_type_repo.get_type_by_id(type_id=product_type.id)
         result = verify_payment(reference=reference)
         if p_type.type_name == "rental":
             amount_paid = product.product_price*quantity*number_of_days
         else:
             amount_paid = product.product_price*quantity
         if payment_is_confirm(result, amount_paid):
+            payment.payment_successful = True
+            payment.save()
             if p_type.type_name == "rental":
                 subject = "Product Rental"
                 message = (
@@ -44,13 +48,13 @@ def verify_product_payment(request, serializer_class):
                 status = "info"
 
                 notification_repo.create_notification(user=product.seller, subject=subject, status=status, message=message)
-                phone = normalize_phone(product.seller.phone)
+                phone = normalize_phone(str(product.seller.phone))
                 send_sms_message(
                     phone=phone,
                     template="product_renter.html",
                     context={"pname": product.product_name, "bname": request.user.first_name, "quantity": quantity, "amount": amount_paid, "bphone": request.user.phone, "days": number_of_days, },
                     )
-                phone1 = normalize_phone(request.user.phone)
+                phone1 = normalize_phone(str(request.user.phone))
                 send_sms_message(
                     phone=phone1,
                     template="product_rentee.html",
@@ -65,13 +69,15 @@ def verify_product_payment(request, serializer_class):
                 status = "info"
 
                 notification_repo.create_notification(user=product.seller, subject=subject, status=status, message=message)
-                phone = normalize_phone(product.seller.phone)
+                print("phone", product.seller.phone)
+                phone = normalize_phone(str(product.seller.phone))
                 send_sms_message(
                     phone=phone,
                     template="product_purchasers.html",
                     context={"pname": product.product_name, "bname": request.user.first_name, "quantity": quantity, "amount": amount_paid, "bphone": request.user.phone, },
                     )
-                phone1 = normalize_phone(request.user.phone)
+                print("phone1", request.user.phone)
+                phone1 = normalize_phone(str(request.user.phone))
                 send_sms_message(
                     phone=phone1,
                     template="product_purchase.html",
@@ -91,3 +97,16 @@ def verify_product_payment(request, serializer_class):
                 "data": {"type": json_ld(result.content)},
             }
             return (bad, context1)
+
+
+def get_user_payment(request, serializer_class):
+    ok = HTTP_200_OK
+    user = request.user
+    payments = payment_repo.get_user_payment(seller=user)
+    data = serializer_class(payments, many=True).data
+    context = {
+        "status": "success",
+        "message": "User Barter Offers",
+        "data": data,
+    }
+    return ok, context

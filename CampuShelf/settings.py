@@ -16,8 +16,17 @@ from datetime import timedelta
 from CampuShelf.configs import *
 import os
 import cloudinary
+cloudinary.config(
+  cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+  api_key=config('CLOUDINARY_API_KEY'),
+  api_secret=config('CLOUDINARY_API_SECRET'),
+  api_proxy="http://proxy.server:3128"
+)
 import cloudinary.uploader
 import cloudinary.api
+
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -121,49 +130,37 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 WSGI_APPLICATION = 'CampuShelf.wsgi.application'
 
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': config('CLOUDINARY_API_KEY'),
-    'API_SECRET': config('CLOUDINARY_API_SECRET'),
-}
 
-cloudinary.config(
-    cloud_name=CLOUDINARY_STORAGE["CLOUD_NAME"],
-    api_key=CLOUDINARY_STORAGE["API_KEY"],
-    api_secret=CLOUDINARY_STORAGE["API_SECRET"],
-)
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
+# if DEBUG:
+DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
-    }
+}
 
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": config("DB_NAME"),
-            "USER": config("DB_USER"),
-            "PASSWORD": config("DB_PASSWORD"),
-            "HOST": config("DB_HOST"),
-            "PORT": config("DB_PORT"),
-            "OPTIONS": {
-                # Enable MySQL strict mode. "MySQL's Strict Mode fixes many data
-                # integrity problems in MySQL, such as data truncation upon
-                # insertion, by escalating warnings into errors."
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            },
-        }
-    }
+# else:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.mysql",
+#             "NAME": config("DB_NAME"),
+#             "USER": config("DB_USER"),
+#             "PASSWORD": config("DB_PASSWORD"),
+#             "HOST": config("DB_HOST"),
+#             "PORT": config("DB_PORT"),
+#             "OPTIONS": {
+#                 # Enable MySQL strict mode. "MySQL's Strict Mode fixes many data
+#                 # integrity problems in MySQL, such as data truncation upon
+#                 # insertion, by escalating warnings into errors."
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             },
+#         }
+#     }
 
 
 # Password validation

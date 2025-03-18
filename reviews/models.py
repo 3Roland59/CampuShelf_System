@@ -12,7 +12,7 @@ class ProductReview(models.Model):
     created_at = models.DateTimeField(
         verbose_name="reported on", auto_now=False, auto_now_add=True
     )
-    rating = models.DecimalField(max_digits=5, decimal_places=2)
+    rating = models.IntegerField()
 
     class Meta:
         verbose_name = "Product Review"

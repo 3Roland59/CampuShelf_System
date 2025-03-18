@@ -1,5 +1,6 @@
 from django.db import models
 from uuid import uuid4
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -15,11 +16,7 @@ class ProductCategory(models.Model):
         primary_key=True, unique=True, editable=False, default=uuid4
     )
     category_name = models.CharField(max_length=255, unique=True)
-    image = models.ImageField(
-        upload_to="category_images",
-        null=True,
-        blank=True,
-    )
+    image = CloudinaryField("profile_images", null=True, blank=True)
     description = models.TextField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)

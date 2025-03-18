@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from products.models import Product, ProductImage
 from accounts.serializers import UserSerializer
 from products.repository import ProductRepository
-from core.serializers import ProductCategorySerializer, ProductTypeSerializer
+# from core.serializers import ProductCategorySerializer, ProductTypeSerializer
 
 product_repo = ProductRepository
 
@@ -14,10 +14,10 @@ class ProductImageSerializer(ModelSerializer):
 
 
 class ProductSerializer(ModelSerializer):
-    product_images = ProductImageSerializer(many=True)
+    product_images = ProductImageSerializer(many=True, read_only=True)
     seller = UserSerializer(read_only=True)
-    category = ProductCategorySerializer()
-    product_type = ProductTypeSerializer()
+    # category = ProductCategorySerializer()
+    # product_type = ProductTypeSerializer()
 
     class Meta:
         model = Product
@@ -30,6 +30,7 @@ class ProductSerializer(ModelSerializer):
             "quantity",
             "description",
             "product_price",
+            "old_price",
             "is_approved",
             "date_posted",
             "last_updated",

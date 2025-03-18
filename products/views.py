@@ -24,6 +24,7 @@ class AddProductView(CreateAPIView):
 
     def post(self, request: Request, *args, **kwargs):
         service = add_product
+        print(request.data)
         status, context = service(request, self.serializer_class)
         return Response(status=status, data=context)
 

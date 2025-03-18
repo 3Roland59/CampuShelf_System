@@ -17,15 +17,17 @@ def add_product(request: Request, serializer_class: ProductSerializer, **kwargs)
     serializer = serializer_class(data=data)
     if serializer.is_valid(raise_exception=True):
         images_data = request.FILES.getlist("product_images")
-
+        # print(type(images_data))
+        # print("list of imges", images_data)
         # create product after checks
         product = serializer.save(seller=request.user)
 
         # product images
         for image_data in images_data:
+            print(images_data)
             product_image_repo.create_product_image(
                 product=product,
-                image=image_data,
+                image=image_data
             )
 
         context = {

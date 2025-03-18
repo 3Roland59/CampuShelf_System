@@ -2,6 +2,7 @@ from django.db import models
 from uuid import uuid4
 from accounts.models import CustomUser
 from core.models import ProductCategory, ProductType
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -19,6 +20,7 @@ class Product(models.Model):
     )
     description = models.TextField(max_length=255, null=True, blank=True)
     product_price = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    old_price = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     quantity = models.IntegerField(default=1)
     is_approved = models.BooleanField(default=True)
     product_type = models.ForeignKey(
@@ -39,7 +41,7 @@ class ProductImage(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="product_images"
     )
-    image = models.ImageField(upload_to="product_images")
+    image = CloudinaryField("product_images")
 
     def __str__(self) -> str:
         return f"{self.product.product_id}"

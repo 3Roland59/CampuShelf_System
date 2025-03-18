@@ -13,3 +13,8 @@ class ProductPaymentRepository:
             **kwargs
                     )
         return product_payment
+
+    @classmethod
+    def get_user_payment(cls, seller=None):
+        pymt = cls.model.filter(buyer=seller)
+        return pymt

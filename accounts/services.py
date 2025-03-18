@@ -62,7 +62,7 @@ def request_password_reset_service(request: Request, serializer_class):
             }
             return (bad, context)
         # normalize phone number to able to send sms with mnotify
-        phone = normalize_phone(_phone)
+        phone = normalize_phone(str(_phone))
         code = generate_code(max=4, reset_password=True)
         repo.create_code(phone=_phone, code=code)
         send_sms_message(

@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ImageField
 from products.models import Product, ProductImage
 from accounts.serializers import UserSerializer
 from products.repository import ProductRepository
@@ -8,6 +8,8 @@ product_repo = ProductRepository
 
 
 class ProductImageSerializer(ModelSerializer):
+    image = ImageField()
+
     class Meta:
         model = ProductImage
         fields = ("image",)

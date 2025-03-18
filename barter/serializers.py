@@ -1,12 +1,13 @@
 from barter.models import Barter
 # from accounts.serializers import UserSerializer
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ImageField
 from products.serializers import ProductSerializer
 
 
 class BarterSerializer(ModelSerializer):
     # seller = UserSerializer(read_only=True)
     product = ProductSerializer()
+    barter_image = ImageField()
 
     class Meta:
         model = Barter

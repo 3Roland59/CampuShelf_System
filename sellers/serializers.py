@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ImageField
 # from core.serializers import ProductTypeSerializer, ProductCategorySerializer
 from products.models import Product
 from products.serializers import ProductImageSerializer
@@ -35,6 +35,7 @@ class SellerProductSerializer(ModelSerializer):
 class SellerBarterSerializer(ModelSerializer):
     buyer = UserSerializer(read_only=True)
     product = ProductSerializer()
+    barter_image = ImageField()
 
     class Meta:
         model = Barter

@@ -48,8 +48,8 @@ class CustomUser(AbstractUser):
     location = models.CharField(max_length=255, null=True, blank=True)
     profile_image = CloudinaryField("profile_images", null=True, blank=True)
     verified = models.BooleanField(default=False)
-    student_id_pic = models.ImageField(upload_to="Student IDs", null=True, blank=True)
-    student_id = CloudinaryField("student_id_pic", null=True, blank=True)
+    student_id_pic = CloudinaryField("student_id_pic", null=True, blank=True)
+    student_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
 
     groups = models.ManyToManyField(Group, related_name="customuser_groups", blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name="customuser_permissions", blank=True)

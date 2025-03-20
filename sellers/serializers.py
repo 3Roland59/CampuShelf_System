@@ -4,7 +4,7 @@ from products.models import Product
 from products.serializers import ProductImageSerializer
 from barter.models import Barter
 from accounts.serializers import UserSerializer
-from products.serializers import ProductSerializer
+# from products.serializers import ProductSerializer
 
 
 class SellerProductSerializer(ModelSerializer):
@@ -34,7 +34,7 @@ class SellerProductSerializer(ModelSerializer):
 
 class SellerBarterSerializer(ModelSerializer):
     buyer = UserSerializer(read_only=True)
-    product = ProductSerializer()
+    # product = ProductSerializer()
     barter_image = ImageField()
 
     class Meta:
